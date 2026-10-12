@@ -176,7 +176,8 @@ section+section{border-top:1px solid var(--rule-2)}
 
 /* footer */
 footer{border-top:1px solid var(--ink);padding-block:48px 56px;background:var(--paper)}
-footer .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:end}
+footer .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:start}
+footer .contact{margin-top:var(--name-line,22px)}
 .who{display:flex;align-items:center;gap:22px}
 .who .me{width:96px;height:96px;border-radius:50%;object-fit:cover;flex:none;border:1px solid var(--rule)}
 .who b{display:block;font-weight:300;font-size:30px;line-height:1.1;margin-bottom:8px}
@@ -203,6 +204,7 @@ footer .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;alig
   .mast nav.open{display:flex}
   .mast nav a{padding:12px 0;border-top:1px solid var(--rule-2);color:var(--ink)}
   footer .wrap{grid-template-columns:minmax(0,1fr)}
+  footer .contact{margin-top:0}
   .contact{text-align:left}
 }
 @media (max-width:520px){
