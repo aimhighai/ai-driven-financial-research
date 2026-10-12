@@ -100,6 +100,17 @@ section+section{border-top:1px solid var(--rule-2)}
 
 /* architecture */
 .arch{overflow-x:auto;border:1px solid var(--rule);background:var(--paper-2);padding:28px 24px}
+.arch-m{display:none;list-style:none;margin:0;padding:0}
+.arch-m li{border:1px solid var(--rule);background:var(--paper-2);padding:14px 16px;display:grid;gap:6px;position:relative}
+.arch-m li+li{margin-top:26px}
+.arch-m li+li::before{content:"";position:absolute;left:50%;top:-22px;height:18px;border-left:1px solid var(--ink-3)}
+.arch-m li+li::after{content:"";position:absolute;left:calc(50% - 4px);top:-9px;border:4px solid transparent;border-top:5px solid var(--ink-3)}
+.arch-m b{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand)}
+.arch-m span{font-size:14px;color:var(--ink-2);line-height:1.5}
+.arch-m em{font-style:normal;font-weight:700;color:var(--ink);margin-right:6px}
+.arch-m li.db{background:var(--steel);border-color:var(--steel)}
+.arch-m li.db b,.arch-m li.db span{color:var(--steel-ink)}
+@media (max-width:700px){.arch{display:none}.arch-m{display:block}}
 .arch svg{display:block;min-width:900px;width:100%;height:auto}
 .arch text{font-family:var(--f-sans)}
 .notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-top:40px}
@@ -183,6 +194,7 @@ footer .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;alig
 }
 @media (max-width:520px){
   .gallery{grid-template-columns:minmax(0,1fr)}
+  .sec-h span{display:none}
   .cap-list li{grid-template-columns:minmax(0,1fr);gap:4px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
@@ -257,7 +269,7 @@ footer .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;alig
           <text x="14" y="61">News feeds</text><text x="14" y="119">Market data and fundamentals</text><text x="14" y="177">SEC EDGAR Form 4</text><text x="14" y="235">Congressional trades</text><text x="14" y="293">FRED macro series</text><text x="14" y="351">Analyst video transcripts</text>
           <rect x="236" y="34" width="150" height="334" fill="var(--paper)" stroke="var(--rule)"/>
           <text x="252" y="64" font-weight="700">Scheduled jobs</text>
-          <g fill="var(--ink-2)" font-size="12"><text x="252" y="92">GitHub Actions</text><text x="252" y="128">Normalize tickers</text><text x="252" y="152">Tag and rank</text><text x="252" y="176">Hash and de-duplicate</text><text x="252" y="200">Validate</text></g>
+          <g fill="var(--ink-2)" font-size="12"><text x="252" y="92">GitHub Actions</text><text x="252" y="128">Normalize tickers</text><text x="252" y="152">Tag and rank</text><text x="252" y="176">Remove duplicates</text><text x="252" y="200">Validate</text></g>
           <rect x="428" y="34" width="170" height="334" fill="var(--steel)"/>
           <text x="446" y="64" font-weight="700" fill="var(--steel-ink)">PostgreSQL</text>
           <text x="446" y="120" font-size="44" font-weight="300" fill="var(--steel-ink)">42</text>
@@ -286,6 +298,13 @@ footer .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;alig
         <g font-size="11" fill="var(--ink-3)"><text x="640" y="392">Solid line: agent reads. Dashed line: agent saves results.</text></g>
       </svg>
     </div>
+    <ol class="arch-m" aria-label="Platform architecture, top to bottom">
+      <li><b>Sources</b><span>News feeds · Market data and fundamentals · SEC EDGAR Form 4 · Congressional trades · FRED macro series · Analyst video transcripts</span></li>
+      <li><b>Ingestion</b><span>Scheduled jobs on GitHub Actions normalize tickers, tag and rank articles, remove duplicates and validate.</span></li>
+      <li class="db"><b>PostgreSQL · 42 tables</b><span>Shared by all agents</span></li>
+      <li><b>Agents</b><span><em>CIO layer</em> House View · Tactical Investment Note</span><span><em>Strategy layer</em> Growth · Value · Macro Rotation · Congress · Smart Money · Street View</span><span><em>Daily desk</em> Market Brief · Options · Swing</span></li>
+      <li><b>Delivery</b><span>PDF reports to Discord</span></li>
+    </ol>
     <div class="notes">
       <div><h3>Agents work independently</h3><p>Each agent reads from the shared database, saves its results and stops. The CIO reads what the strategies saved earlier instead of asking them. Any agent can be rerun on its own.</p></div>
       <div><h3>AI writes the analysis, rules manage the risk</h3><p>The models write the research and make the calls. Position limits, conviction grades, stops and exits follow fixed rules.</p></div>
