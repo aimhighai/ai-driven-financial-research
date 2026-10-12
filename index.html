@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="AI Driven Financial Research: a multi-agent platform that monitors US markets and publishes institutional-format research.">
+<title>AI Driven Financial Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400&display=swap">
+<style>
+/* Layout: research-house site in the reports' own visual language; wide margins, hairline rules, steel-blue light-weight section heads, real report pages as the imagery. */
+:root{
+  --paper:#ffffff; --paper-2:#f7f7f6; --ink:#212121; --ink-2:#5c524a; --ink-3:#8a8178;
+  --steel:#336699; --steel-ink:#ffffff; --brand:#aa3c3c; --rule:#d6d3cf; --rule-2:#ebe9e6;
+  --up:#008c46; --shadow:0 1px 2px rgba(20,24,30,.06),0 8px 28px rgba(20,24,30,.10);
+  --f-sans:"Lato","Helvetica Neue",Arial,sans-serif;
+  --f-serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --wrap:1120px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#11161d; --paper-2:#171d26; --ink:#e7e5e1; --ink-2:#b9b1a8; --ink-3:#8c857d;
+  --steel:#7fa7cf; --steel-ink:#0d1218; --brand:#d77a7a; --rule:#2c3440; --rule-2:#222a34;
+  --up:#4cc38a; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.45); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11161d; --paper-2:#171d26; --ink:#e7e5e1; --ink-2:#b9b1a8; --ink-3:#8c857d;
+  --steel:#7fa7cf; --steel-ink:#0d1218; --brand:#d77a7a; --rule:#2c3440; --rule-2:#222a34;
+  --up:#4cc38a; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.45); color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-sans);font-size:16px;line-height:1.65;margin:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--steel);outline-offset:3px}
+
+/* masthead */
+.mast{border-bottom:1px solid var(--rule);position:sticky;top:env(safe-area-inset-top,0px);background:var(--paper);z-index:5}
+.mast .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:18px}
+.mark{font-weight:700;font-size:15px;letter-spacing:.01em;white-space:nowrap;text-decoration:none}
+.mark em{font-style:normal;color:var(--brand)}
+.mast nav{display:flex;gap:26px;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
+.mast nav a{text-decoration:none}
+.mast nav a:hover{color:var(--steel)}
+
+/* type */
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 18px}
+h1{font-family:var(--f-sans);font-weight:300;font-size:clamp(40px,6.2vw,74px);line-height:1.02;letter-spacing:-.015em;margin:0 0 28px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--brand)}
+.sec-h{display:flex;align-items:baseline;gap:18px;border-bottom:1px solid var(--rule);padding-bottom:12px;margin:0 0 36px}
+.sec-h h2{font-weight:300;font-size:clamp(24px,3vw,30px);letter-spacing:.02em;text-transform:uppercase;color:var(--steel);margin:0;line-height:1.1}
+.sec-h span{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-left:auto}
+.lede{font-family:var(--f-serif);font-weight:300;font-size:clamp(19px,2vw,23px);line-height:1.5;color:var(--ink);max-width:36ch;margin:0}
+.body{max-width:64ch;color:var(--ink-2);margin:0}
+section{padding-block:clamp(56px,8vw,96px)}
+section+section{border-top:1px solid var(--rule-2)}
+
+/* hero */
+.hero{padding-block:clamp(56px,8vw,104px) clamp(48px,6vw,80px)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:center}
+.cta{display:flex;gap:28px;flex-wrap:wrap;margin-top:36px;font-size:14px}
+.cta a{text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:3px}
+.cta a.primary{color:var(--steel);border-color:var(--steel)}
+.stack{position:relative;aspect-ratio:1/1;max-width:100%}
+.stack img{position:absolute;width:56%;border:1px solid var(--rule);box-shadow:var(--shadow);background:#fff;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.stack img:nth-child(1){left:0;top:12%;transform:rotate(-4deg)}
+.stack img:nth-child(2){left:22%;top:4%;transform:rotate(-.5deg);z-index:2}
+.stack img:nth-child(3){left:44%;top:14%;transform:rotate(3.5deg);z-index:1}
+.stack:hover img:nth-child(1){transform:rotate(-6deg) translateX(-10px)}
+.stack:hover img:nth-child(3){transform:rotate(5deg) translateX(10px)}
+
+/* figures */
+.hero .wrap.figs-row{display:block}
+.figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--ink);margin-top:48px}
+.fig{padding:18px 20px 4px 0}
+.fig+.fig{border-left:1px solid var(--rule);padding-left:20px}
+.fig b{display:block;font-weight:300;font-size:clamp(28px,3.4vw,44px);white-space:nowrap;line-height:1.05;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.fig small{display:block;font-size:13px;color:var(--ink-2);margin-top:8px;line-height:1.45}
+
+/* what it does */
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px)}
+.cap-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.cap-list li{display:grid;grid-template-columns:120px minmax(0,1fr);gap:20px;padding:16px 0;border-bottom:1px solid var(--rule)}
+.cap-list b{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);font-weight:700;padding-top:3px}
+.cap-list p{margin:0;color:var(--ink-2)}
+
+/* architecture */
+.arch{overflow-x:auto;border:1px solid var(--rule);background:var(--paper-2);padding:28px 24px}
+.arch svg{display:block;min-width:900px;width:100%;height:auto}
+.arch text{font-family:var(--f-sans)}
+.notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-top:40px}
+.notes h3{font-size:15px;font-weight:700;margin:0 0 6px}
+.notes p{margin:0;font-size:15px;color:var(--ink-2)}
+.chart{margin-top:56px;display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:40px;align-items:start}
+.chart h3{font-size:15px;font-weight:700;margin:0 0 6px}
+.chart p{margin:0;font-size:14px;color:var(--ink-2)}
+.chart svg{width:100%;height:auto;display:block}
+
+/* spec table */
+.spec{width:100%;border-collapse:collapse;font-size:15px}
+.spec caption{text-align:left;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding-bottom:10px}
+.spec th{background:var(--steel);color:var(--steel-ink);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:9px 14px}
+.spec td{padding:11px 14px;border-bottom:1px solid var(--rule-2);vertical-align:top}
+.spec tr:nth-child(even) td{background:var(--paper-2)}
+.spec td:first-child{width:34%;color:var(--ink);font-weight:700;font-size:14px}
+.spec td:last-child{color:var(--ink-2)}
+.num{font-variant-numeric:tabular-nums}
+.tbl-wrap{overflow-x:auto}
+
+/* approach */
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--ink);margin-bottom:56px}
+.step{padding:20px 20px 0 0;position:relative}
+.step+.step{padding-left:20px;border-left:1px solid var(--rule)}
+.step i{font-style:normal;font-size:12px;letter-spacing:.12em;color:var(--brand);font-weight:700}
+.step h3{font-weight:300;font-size:22px;margin:6px 0 8px;line-height:1.2}
+.step p{margin:0;font-size:14px;color:var(--ink-2)}
+.princ{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 56px}
+.princ div{padding:18px 0;border-top:1px solid var(--rule)}
+.princ h3{font-size:15px;font-weight:700;margin:0 0 4px}
+.princ p{margin:0;font-size:15px;color:var(--ink-2)}
+
+/* reports */
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px 40px}
+.rep.land .pg img{object-fit:contain;background:#fff}
+.dl{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;font-weight:700;color:var(--steel);text-decoration:none;border-bottom:1px solid var(--steel);padding-bottom:2px}
+.dl span{font-weight:400;color:var(--ink-3)}
+.dl:hover{color:var(--brand);border-color:var(--brand)}
+.rep{margin:0}
+.rep button{all:unset;cursor:zoom-in;display:block;width:100%}
+.rep .pg{aspect-ratio:893/1263;overflow:hidden;border:1px solid var(--rule);background:#fff;box-shadow:var(--shadow);transition:transform .35s ease,box-shadow .35s ease}
+.rep .pg img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.rep button:hover .pg,.rep button:focus-visible .pg{transform:translateY(-4px)}
+.rep figcaption{padding-top:16px}
+.rep h3{font-weight:400;font-size:19px;margin:0 0 2px}
+.rep .cad{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--steel);font-weight:700;margin:0 0 6px}
+.rep p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.55}
+.also{margin-top:56px;padding-top:20px;border-top:1px solid var(--rule);font-size:14px;color:var(--ink-2)}
+.also b{color:var(--ink);font-weight:700}
+
+/* lightbox */
+.lb{position:fixed;inset:0;background:rgba(10,14,20,.86);display:flex;align-items:center;justify-content:center;padding:calc(24px + env(safe-area-inset-top,0px)) 16px 24px;z-index:20}
+.lb img{max-height:100%;max-width:min(100%,1200px);box-shadow:0 20px 60px rgba(0,0,0,.5);background:#fff}
+.lb button{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:18px;background:none;border:1px solid rgba(255,255,255,.5);color:#fff;font:inherit;font-size:13px;padding:6px 14px;cursor:pointer}
+
+/* footer */
+footer{border-top:1px solid var(--ink);padding-block:48px 56px;background:var(--paper)}
+footer .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:end}
+.who b{display:block;font-weight:300;font-size:30px;line-height:1.1;margin-bottom:8px}
+.who span{display:block;color:var(--ink-2);font-size:14px}
+.contact{text-align:right;font-size:14px;color:var(--ink-2)}
+.contact .addr{color:var(--ink);font-weight:700;user-select:all}
+.disc{grid-column:1/-1;font-size:12px;color:var(--ink-3);border-top:1px solid var(--rule-2);padding-top:16px;margin:8px 0 0}
+
+@media (max-width:900px){
+  .hero .wrap,.two,.chart{grid-template-columns:minmax(0,1fr)}
+  .stack{max-width:520px}
+  .figs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fig:nth-child(3){border-left:0;padding-left:0}
+  .fig:nth-child(n+3){border-top:1px solid var(--rule)}
+  .notes{grid-template-columns:minmax(0,1fr)}
+  .flow{grid-template-columns:minmax(0,1fr)}
+  .step+.step{border-left:0;padding-left:0;border-top:1px solid var(--rule)}
+  .step{padding-bottom:18px}
+  .princ{grid-template-columns:minmax(0,1fr)}
+  .gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mast nav{display:none}
+  footer .wrap{grid-template-columns:minmax(0,1fr)}
+  .contact{text-align:left}
+}
+@media (max-width:520px){
+  .gallery{grid-template-columns:minmax(0,1fr)}
+  .cap-list li{grid-template-columns:minmax(0,1fr);gap:4px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap">
+    <a class="mark" href="#top">AI Driven <em>Financial</em> Research</a>
+    <nav aria-label="Sections">
+      <a href="#what">What it does</a><a href="#how">How it works</a><a href="#tech">Technology</a><a href="#approach">Approach</a><a href="#reports">Reports</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Multi-agent market research platform</p>
+      <h1>AI Driven <em>Financial</em> Research</h1>
+      <p class="lede">Specialist AI analysts monitor US markets every trading day and publish institutional-format research: a daily market brief, a weekly CIO house view, a tactical investment note and six strategy books.</p>
+      <div class="cta"><a class="primary" href="#reports">View the reports</a><a href="reports/daily-market-brief-2026-10-12.pdf" download>Download a Daily Market Brief (PDF)</a><a href="#how">Platform architecture</a></div>
+    </div>
+    <div class="stack" aria-label="First pages of three published reports">
+      <img src="img/brief.jpg" alt="Daily Market Brief, 12 October 2026, first page">
+      <img src="img/cio.jpg" alt="CIO House View, 9 October 2026, first page">
+      <img src="img/value.jpg" alt="Value Strategy, 10 October 2026, first page">
+    </div>
+  </div>
+  <div class="wrap figs-row">
+    <div class="figs">
+      <div class="fig"><b class="num">280</b><small>reports issued since June 2026</small></div>
+      <div class="fig"><b class="num">1,200</b><small>securities under daily coverage</small></div>
+      <div class="fig"><b class="num">55,000</b><small>news articles read and classified</small></div>
+      <div class="fig"><b class="num">29,000</b><small>SEC insider filings processed</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="what">
+  <div class="wrap">
+    <div class="sec-h"><h2>What it does</h2></div>
+    <div class="two">
+      <div>
+        <p class="lede" style="max-width:30ch">One research desk, staffed by AI agents, each with a defined mandate.</p>
+        <p class="body" style="margin-top:20px">Every agent reads the same market record and applies its own discipline. Six strategies run paper portfolios with entries, exits and holdings. A chief investment officer layer sets the market regime above them. A tactical note reconciles the strategies into one book. Every position is tracked from entry to exit.</p>
+      </div>
+      <ul class="cap-list">
+        <li><b>Monitor</b><p>News, prices, fundamentals, SEC insider filings, congressional trades, macro series and analyst commentary, ingested on schedule.</p></li>
+        <li><b>Assess</b><p>A weekly regime call across rates, inflation, activity and credit, with industry breadth and momentum from the price tape.</p></li>
+        <li><b>Select</b><p>Growth, Value, Macro Rotation, Congress, Smart Money and Street View, each screening the Russell 1000 or a 23-ETF macro menu.</p></li>
+        <li><b>Publish</b><p>Formatted PDF reports delivered to dedicated channels, from the daily market brief to the weekly strategy books.</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-h"><h2>How it works</h2><span>Platform architecture</span></div>
+    <div class="arch" role="img" aria-label="Data flows from six source types through scheduled ingestion into a PostgreSQL system of record. Agents in two layers read from and write to the database, then publish PDF reports to Discord.">
+      <svg viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--ink-3)"/></marker></defs>
+        <g font-size="11" fill="var(--ink-3)" letter-spacing="1.4"><text x="0" y="16">SOURCES</text><text x="236" y="16">INGESTION</text><text x="428" y="16">SYSTEM OF RECORD</text><text x="640" y="16">AGENTS</text><text x="900" y="16">DELIVERY</text></g>
+        <g font-size="13" fill="var(--ink)">
+          <g stroke="var(--rule)" fill="var(--paper)">
+            <rect x="0" y="34" width="190" height="44"/><rect x="0" y="92" width="190" height="44"/><rect x="0" y="150" width="190" height="44"/><rect x="0" y="208" width="190" height="44"/><rect x="0" y="266" width="190" height="44"/><rect x="0" y="324" width="190" height="44"/>
+          </g>
+          <text x="14" y="61">News feeds</text><text x="14" y="119">Market data and fundamentals</text><text x="14" y="177">SEC EDGAR Form 4</text><text x="14" y="235">Congressional trades</text><text x="14" y="293">FRED macro series</text><text x="14" y="351">Analyst video transcripts</text>
+          <rect x="236" y="34" width="150" height="334" fill="var(--paper)" stroke="var(--rule)"/>
+          <text x="252" y="64" font-weight="700">Scheduled jobs</text>
+          <g fill="var(--ink-2)" font-size="12"><text x="252" y="92">GitHub Actions</text><text x="252" y="128">Normalize tickers</text><text x="252" y="152">Tag and rank</text><text x="252" y="176">Hash and de-duplicate</text><text x="252" y="200">Validate</text></g>
+          <rect x="428" y="34" width="170" height="334" fill="var(--steel)"/>
+          <text x="446" y="64" font-weight="700" fill="var(--steel-ink)">PostgreSQL</text>
+          <text x="446" y="120" font-size="44" font-weight="300" fill="var(--steel-ink)">42</text>
+          <text x="446" y="142" font-size="12" fill="var(--steel-ink)">tables</text>
+          <g font-size="12" fill="var(--steel-ink)"><text x="446" y="196">Prices, fundamentals</text><text x="446" y="216">Articles and themes</text><text x="446" y="236">Filings and trades</text><text x="446" y="256">Signals and positions</text><text x="446" y="276">Regime and reports</text></g>
+          <text x="446" y="346" font-size="11" fill="var(--steel-ink)" letter-spacing=".6">SHARED BY ALL AGENTS</text>
+          <rect x="640" y="34" width="216" height="104" fill="var(--paper)" stroke="var(--ink-3)"/>
+          <text x="656" y="58" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">CIO LAYER</text>
+          <text x="656" y="84">House View</text><text x="656" y="106">Tactical Investment Note</text><text x="656" y="126" font-size="11" fill="var(--ink-3)">regime, synthesis, the book</text>
+          <rect x="640" y="152" width="216" height="140" fill="var(--paper)" stroke="var(--ink-3)"/>
+          <text x="656" y="176" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">STRATEGY LAYER</text>
+          <text x="656" y="202">Growth · Value</text><text x="656" y="224">Macro Rotation · Congress</text><text x="656" y="246">Smart Money · Street View</text><text x="656" y="276" font-size="11" fill="var(--ink-3)">paper books, entries and exits</text>
+          <rect x="640" y="306" width="216" height="62" fill="var(--paper)" stroke="var(--ink-3)"/>
+          <text x="656" y="330" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">DAILY DESK</text>
+          <text x="656" y="354">Market Brief · Options · Swing</text>
+          <rect x="900" y="150" width="100" height="44" fill="var(--paper)" stroke="var(--rule)"/><text x="914" y="177">PDF report</text>
+          <rect x="900" y="208" width="100" height="44" fill="var(--paper)" stroke="var(--rule)"/><text x="914" y="235">Discord</text>
+        </g>
+        <g stroke="var(--ink-3)" stroke-width="1" fill="none">
+          <path d="M190 56H236M190 114H236M190 172H236M190 230H236M190 288H236M190 346H236" marker-end="url(#ar)"/>
+          <path d="M386 201H428" marker-end="url(#ar)"/>
+          <path d="M598 86H640M598 222H640M598 337H640" marker-end="url(#ar)"/>
+          <path d="M640 98H612V110H598M640 238H612V250H598M640 350H612V358H598" stroke-dasharray="3 3" marker-end="url(#ar)"/>
+          <path d="M856 222H878V172H900M878 222V230H900" marker-end="url(#ar)"/>
+        </g>
+        <g font-size="11" fill="var(--ink-3)"><text x="640" y="392">Solid line: agent reads. Dashed line: agent saves results.</text></g>
+      </svg>
+    </div>
+    <div class="notes">
+      <div><h3>Agents work independently</h3><p>Each agent reads from the shared database, saves its results and stops. The CIO reads what the strategies saved earlier instead of asking them. Any agent can be rerun on its own.</p></div>
+      <div><h3>AI writes the analysis, rules manage the risk</h3><p>The models write the research and make the calls. Position limits, conviction grades, stops and exits follow fixed rules.</p></div>
+      <div><h3>Every AI answer is checked</h3><p>The models answer in a fixed format that is checked before anything is saved. Loose text never drives a decision.</p></div>
+    </div>
+    <div class="chart">
+      <div><h3>Weekly news intake</h3><p>Articles ingested per week, May to early October 2026. Each one is tagged, ranked and linked to tickers and themes.</p></div>
+      <svg id="intake" viewBox="0 0 720 220" role="img" aria-label="Bar chart of weekly article intake, rising from about 900 a week in early May to a peak near 4,500 in early August, then about 1,800 to 2,700 a week."></svg>
+    </div>
+  </div>
+</section>
+
+<section id="tech">
+  <div class="wrap">
+    <div class="sec-h"><h2>Technology and specifications</h2></div>
+    <div class="two">
+      <div class="tbl-wrap"><table class="spec">
+        <caption>Platform</caption>
+        <thead><tr><th>Component</th><th>Specification</th></tr></thead>
+        <tbody>
+          <tr><td>Language</td><td>Python, <span class="num">46,000</span> lines</td></tr>
+          <tr><td>AI models</td><td>Anthropic Claude: Opus, Sonnet and Haiku, assigned by task</td></tr>
+          <tr><td>Orchestration</td><td>GitHub Actions, <span class="num">39</span> workflows</td></tr>
+          <tr><td>Database</td><td>PostgreSQL 17 on Supabase, <span class="num">42</span> tables, row-level security</td></tr>
+          <tr><td>Reporting</td><td>fpdf2 and matplotlib, house PDF format</td></tr>
+          <tr><td>Delivery</td><td>Discord, one channel per report</td></tr>
+          <tr><td>Change history</td><td><span class="num">707</span> commits since May 2026</td></tr>
+        </tbody>
+      </table></div>
+      <div class="tbl-wrap"><table class="spec">
+        <caption>Data</caption>
+        <thead><tr><th>Domain</th><th>Source and scale</th></tr></thead>
+        <tbody>
+          <tr><td>Market data</td><td>Financial Modeling Prep: prices, fundamentals, profiles, calendar</td></tr>
+          <tr><td>Price history</td><td><span class="num">989,000</span> daily bars, <span class="num">1,200</span> securities</td></tr>
+          <tr><td>Universe</td><td>Russell 1000, plus a 23-ETF cross-asset menu</td></tr>
+          <tr><td>Insider filings</td><td>SEC EDGAR Form 4, <span class="num">29,000</span> transactions</td></tr>
+          <tr><td>Legislative trades</td><td>US House and Senate disclosures</td></tr>
+          <tr><td>Macro</td><td>Federal Reserve FRED series</td></tr>
+          <tr><td>News</td><td><span class="num">55,000</span> articles, tagged by ticker and theme</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<section id="approach">
+  <div class="wrap">
+    <div class="sec-h"><h2>Approach</h2><span>Governed delivery</span></div>
+    <p class="lede" style="max-width:42ch;margin-bottom:48px">Run as a managed program. Every change passes the same five steps before it reaches a published report.</p>
+    <div class="flow">
+      <div class="step"><i>01</i><h3>Plan</h3><p>Exact files, functions and the test that proves the change.</p></div>
+      <div class="step"><i>02</i><h3>Approve</h3><p>Sign-off on scope before any code is written.</p></div>
+      <div class="step"><i>03</i><h3>Build</h3><p>A dedicated AI build agent implements the approved plan only.</p></div>
+      <div class="step"><i>04</i><h3>Verify</h3><p>Independent review of the diff and the agent's claims.</p></div>
+      <div class="step"><i>05</i><h3>Release</h3><p>Full dry run in CI with no writes, then release on approval.</p></div>
+    </div>
+    <div class="princ">
+      <div><h3>One program record</h3><p>A single workbook holds scope, the component map, open items and every material decision with its owner and date.</p></div>
+      <div><h3>Fix data at the source</h3><p>Corrections go into ingestion or the shared module, never into a report.</p></div>
+      <div><h3>Configuration over code</h3><p>Thresholds, caps and quality floors are environment settings. Tuning a strategy needs no code change.</p></div>
+      <div><h3>No double counting</h3><p>Every record carries a unique fingerprint, so any job can run twice without storing the same item twice.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="reports">
+  <div class="wrap">
+    <div class="sec-h"><h2>Reports</h2><span>Select a page to enlarge</span></div>
+    <div class="gallery">
+      <figure class="rep"><button data-src="img/brief.jpg" aria-label="Enlarge Daily Market Brief"><div class="pg"><img src="img/brief.jpg" alt="Daily Market Brief, first page" loading="lazy"></div></button>
+        <figcaption><p class="cad">Every trading day · 95 issued</p><h3>Daily Market Brief</h3><p>Bottom line, the market open, the day's themes, sentiment, the industry tape and the economic calendar.</p><a class="dl" href="reports/daily-market-brief-2026-10-12.pdf" download>Download PDF <span>7 pages · 185 KB</span></a></figcaption></figure>
+      <figure class="rep"><button data-src="img/cio.jpg" aria-label="Enlarge CIO House View"><div class="pg"><img src="img/cio.jpg" alt="CIO House View, first page" loading="lazy"></div></button>
+        <figcaption><p class="cad">Weekly · 9 issued</p><h3>CIO House View</h3><p>Cycle phase, trend, Fed stance and risk appetite, with a plain-language house view and the week ahead.</p><a class="dl" href="reports/cio-house-view-2026-10-09.pdf" download>Download PDF <span>3 pages · 48 KB</span></a></figcaption></figure>
+      <figure class="rep"><button data-src="img/macro.jpg" aria-label="Enlarge Macro Rotation Strategy"><div class="pg"><img src="img/macro.jpg" alt="Macro Rotation Strategy, first page" loading="lazy"></div></button>
+        <figcaption><p class="cad">Weekly · 26 issued</p><h3>Macro Rotation</h3><p>A four-pillar macro cycle dashboard driving long and short positions across a 23-ETF menu.</p><a class="dl" href="reports/macro-rotation-2026-10-09.pdf" download>Download PDF <span>3 pages · 196 KB</span></a></figcaption></figure>
+      <figure class="rep"><button data-src="img/value.jpg" aria-label="Enlarge Value Strategy"><div class="pg"><img src="img/value.jpg" alt="Value Strategy, first page" loading="lazy"></div></button>
+        <figcaption><p class="cad">Weekly · 26 issued</p><h3>Value Strategy</h3><p>Quality at a discount to industry peers, gated by industry trend, with a written thesis and chart per entry.</p><a class="dl" href="reports/value-strategy-2026-10-10.pdf" download>Download PDF <span>3 pages · 97 KB</span></a></figcaption></figure>
+      <figure class="rep"><button data-src="img/growth.jpg" aria-label="Enlarge Growth Strategy"><div class="pg"><img src="img/growth.jpg" alt="Growth Strategy, first page" loading="lazy"></div></button>
+        <figcaption><p class="cad">Weekly · 24 issued</p><h3>Growth Strategy</h3><p>Quality growth at a reasonable price, scored on growth, profitability, balance sheet, valuation and capital allocation, and gated by industry trend.</p><a class="dl" href="reports/growth-strategy-2026-10-09.pdf" download>Download PDF <span>2 pages · 43 KB</span></a></figcaption></figure>
+      <figure class="rep land"><button data-src="img/options.jpg" aria-label="Enlarge Options"><div class="pg"><img src="img/options.jpg" alt="Options report, first page" loading="lazy"></div></button>
+        <figcaption><p class="cad">Every trading day</p><h3>Options</h3><p>One section per options strategy. Cash-secured puts: every actively traded optionable name screened down to liquid puts in industries with positive breadth and momentum.</p><a class="dl" href="reports/options-2026-10-12.pdf" download>Download PDF <span>2 pages · 50 KB</span></a></figcaption></figure>
+    </div>
+    <p class="also"><b>Also published:</b> Tactical Investment Note, Street View, Congress, Smart Money and Swing.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="who"><b>Robert Colacicchi, MS, PMP</b><span>Senior Program Manager · Technical Program Delivery</span></div>
+    <div class="contact"><a class="addr" href="https://www.linkedin.com/in/colacicchi" rel="noopener">Connect on LinkedIn</a></div>
+    <p class="disc">All portfolios shown are paper portfolios. Reports are research output generated by AI and do not constitute investment advice.</p>
+  </div>
+</footer>
+
+<div class="lb" id="lb" hidden><button type="button" id="lbx">Close</button><img id="lbi" alt=""></div>
+
+<script>
+(function(){
+  var d=[["May 4",904],["May 11",713],["May 18",1045],["May 25",1508],["Jun 1",2130],["Jun 8",2501],["Jun 15",2894],["Jun 22",2555],["Jun 29",2589],["Jul 6",2082],["Jul 13",2335],["Jul 20",3096],["Jul 27",3849],["Aug 3",4489],["Aug 10",3048],["Aug 17",2133],["Aug 24",2040],["Aug 31",2690],["Sep 7",2278],["Sep 14",2674],["Sep 21",2304],["Sep 28",1770],["Oct 5",1754]];
+  var W=720,H=220,L=44,R=8,T=12,B=28,max=5000,ns="http://www.w3.org/2000/svg",s=document.getElementById("intake");
+  function el(n,a,t){var e=document.createElementNS(ns,n);for(var k in a)e.setAttribute(k,a[k]);if(t!=null)e.textContent=t;s.appendChild(e);return e}
+  var y=function(v){return T+(H-T-B)*(1-v/max)}, bw=(W-L-R)/d.length;
+  [0,1000,2000,3000,4000,5000].forEach(function(v){
+    el("line",{x1:L,x2:W-R,y1:y(v),y2:y(v),stroke:"var(--rule-2)","stroke-width":1});
+    el("text",{x:L-8,y:y(v)+4,"text-anchor":"end","font-size":11,fill:"var(--ink-3)","font-family":"Lato,Arial,sans-serif"},v?(v/1000)+"k":"0");
+  });
+  d.forEach(function(p,i){
+    var x=L+i*bw+bw*0.18,top=y(p[1]),peak=p[1]===4489;
+    el("rect",{x:x,y:top,width:bw*0.64,height:y(0)-top,fill:peak?"var(--brand)":"var(--steel)"}).appendChild(document.createElementNS(ns,"title")).textContent=p[0]+": "+p[1].toLocaleString()+" articles";
+    if(i%4===0) el("text",{x:x+bw*0.32,y:H-8,"text-anchor":"middle","font-size":11,fill:"var(--ink-3)","font-family":"Lato,Arial,sans-serif"},p[0]);
+    if(peak) el("text",{x:x+bw*0.32,y:top-6,"text-anchor":"middle","font-size":11,fill:"var(--ink)","font-family":"Lato,Arial,sans-serif"},"4,489");
+  });
+  el("line",{x1:L,x2:W-R,y1:y(0),y2:y(0),stroke:"var(--ink-3)","stroke-width":1});
+
+  var lb=document.getElementById("lb"),lbi=document.getElementById("lbi"),last=null;
+  function close(){lb.hidden=true;lbi.removeAttribute("src");if(last)last.focus()}
+  document.querySelectorAll(".rep button").forEach(function(b){b.addEventListener("click",function(){last=b;lbi.src=b.dataset.src;lbi.alt=b.getAttribute("aria-label").replace("Enlarge ","");lb.hidden=false;document.getElementById("lbx").focus()})});
+  document.getElementById("lbx").addEventListener("click",close);
+  lb.addEventListener("click",function(e){if(e.target===lb)close()});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!lb.hidden)close()});
+})();
+</script>
+</body>
+</html>
