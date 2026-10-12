@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="AI Driven Financial Research: a multi-agent platform that monitors US markets and publishes institutional-format research.">
 <title>AI Driven Financial Research</title>
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -56,6 +57,11 @@ a{color:inherit}
 .mast nav{display:flex;gap:26px;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
 .mast nav a{text-decoration:none}
 .mast nav a:hover{color:var(--steel)}
+.mast nav{order:2;margin-left:auto}
+.tools{display:flex;align-items:center;gap:10px;order:3}
+.theme-btn{background:none;border:1px solid var(--rule);color:var(--ink);width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.theme-btn:hover{border-color:var(--ink-3)}
+.theme-btn svg{width:16px;height:16px;display:block}
 .menu-btn{display:none;align-items:center;gap:8px;background:none;border:1px solid var(--rule);color:var(--ink);font:inherit;font-size:13px;padding:7px 12px;cursor:pointer}
 .menu-btn i{display:block;width:14px;height:1.5px;background:currentColor;position:relative}
 .menu-btn i::before,.menu-btn i::after{content:"";position:absolute;left:0;width:14px;height:1.5px;background:currentColor}
@@ -200,7 +206,8 @@ footer .contact{margin-top:var(--name-line,22px)}
   .gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
   .mast .wrap{flex-wrap:wrap;row-gap:0}
   .menu-btn{display:inline-flex}
-  .mast nav{display:none;width:100%;flex-direction:column;gap:0;padding-top:12px;font-size:15px}
+  .tools{order:2;margin-left:auto}
+  .mast nav{order:3;margin-left:0;display:none;width:100%;flex-direction:column;gap:0;padding-top:12px;font-size:15px}
   .mast nav.open{display:flex}
   .mast nav a{padding:12px 0;border-top:1px solid var(--rule-2);color:var(--ink)}
   footer .wrap{grid-template-columns:minmax(0,1fr)}
@@ -220,7 +227,7 @@ footer .contact{margin-top:var(--name-line,22px)}
 <header class="mast">
   <div class="wrap">
     <a class="mark" href="#top">AI Driven <em>Financial</em> Research</a>
-    <button class="menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="siteNav"><i aria-hidden="true"></i><span>Menu</span></button>
+    <div class="tools"><button class="theme-btn" type="button" id="themeBtn" aria-label="Switch colour mode"></button><button class="menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="siteNav"><i aria-hidden="true"></i><span>Menu</span></button></div>
     <nav aria-label="Sections" id="siteNav">
       <a href="#what">What it does</a><a href="#how">How it works</a><a href="#tech">Technology</a><a href="#approach">Approach</a><a href="#reports">Reports</a><a href="#connect">Connect</a>
     </nav>
@@ -438,6 +445,15 @@ footer .contact{margin-top:var(--name-line,22px)}
     if(peak) el("text",{x:x+bw*0.32,y:top-6,"text-anchor":"middle","font-size":11,fill:"var(--ink)","font-family":"Lato,Arial,sans-serif"},"4,489");
   });
   el("line",{x1:L,x2:W-R,y1:y(0),y2:y(0),stroke:"var(--ink-3)","stroke-width":1});
+
+  var root=document.documentElement,tb=document.getElementById("themeBtn"),mq=matchMedia("(prefers-color-scheme: dark)");
+  var SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>';
+  var MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>';
+  function current(){return root.getAttribute("data-theme")||(mq.matches?"dark":"light")}
+  function paintTheme(){var dark=current()==="dark";tb.innerHTML=dark?SUN:MOON;var label=dark?"Switch to light mode":"Switch to dark mode";tb.setAttribute("aria-label",label);tb.title=label}
+  tb.addEventListener("click",function(){var next=current()==="dark"?"light":"dark";root.setAttribute("data-theme",next);try{localStorage.setItem("theme",next)}catch(e){}paintTheme()});
+  if(mq.addEventListener)mq.addEventListener("change",paintTheme);
+  paintTheme();
 
   var mb=document.getElementById("menuBtn"),nav=document.getElementById("siteNav");
   function setMenu(open){nav.classList.toggle("open",open);mb.setAttribute("aria-expanded",open);mb.querySelector("span").textContent=open?"Close":"Menu"}
