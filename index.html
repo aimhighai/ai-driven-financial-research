@@ -215,7 +215,9 @@ footer .contact{margin-top:var(--name-line,22px)}
   .contact{text-align:left}
 }
 @media (max-width:520px){
-  .gallery{grid-template-columns:minmax(0,1fr)}
+  .gallery{grid-template-columns:minmax(0,1fr);row-gap:32px}
+  .rep{padding-bottom:32px;border-bottom:1px solid var(--rule)}
+  .rep:last-child{padding-bottom:0;border-bottom:0}
   .sec-h span{display:none}
   .cap-list li{grid-template-columns:minmax(0,1fr);gap:4px}
 }
