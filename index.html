@@ -283,51 +283,64 @@ footer .contact{margin-top:var(--name-line,22px)}
 <section id="how">
   <div class="wrap">
     <div class="sec-h"><h2>How it works</h2><span>Platform architecture</span></div>
-    <div class="arch" role="img" aria-label="Data flows from six source types through scheduled ingestion into a PostgreSQL system of record. Agents in two layers read from and write to the database, then publish PDF reports to Discord.">
+    <div class="arch" role="img" aria-label="Data flows from eight source types through scheduled ingestion into a PostgreSQL system of record. Agents in two layers read from and write to the database, then publish PDF reports to Discord.">
       <svg viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg">
         <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--ink-3)"/></marker></defs>
-        <g font-size="11" fill="var(--ink-3)" letter-spacing="1.4"><text x="0" y="16">SOURCES</text><text x="236" y="16">INGESTION</text><text x="428" y="16">SYSTEM OF RECORD</text><text x="640" y="16">AGENTS</text><text x="900" y="16">DELIVERY</text></g>
+        <g font-size="11" fill="var(--ink-3)" letter-spacing="1.4"><text x="0" y="16">SOURCES</text><text x="236" y="16">INGESTION · ETL</text><text x="428" y="16">SYSTEM OF RECORD</text><text x="640" y="16">AGENTS</text><text x="900" y="16">DELIVERY</text></g>
         <g font-size="13" fill="var(--ink)">
           <g stroke="var(--rule)" fill="var(--paper)">
-            <rect x="0" y="34" width="190" height="44"/><rect x="0" y="92" width="190" height="44"/><rect x="0" y="150" width="190" height="44"/><rect x="0" y="208" width="190" height="44"/><rect x="0" y="266" width="190" height="44"/><rect x="0" y="324" width="190" height="44"/>
+            <rect x="0" y="34" width="190" height="36"/><rect x="0" y="77" width="190" height="36"/><rect x="0" y="119" width="190" height="36"/><rect x="0" y="162" width="190" height="36"/><rect x="0" y="204" width="190" height="36"/><rect x="0" y="247" width="190" height="36"/><rect x="0" y="289" width="190" height="36"/><rect x="0" y="332" width="190" height="36"/>
           </g>
-          <text x="14" y="61">News feeds</text><text x="14" y="119">Market data and fundamentals</text><text x="14" y="177">SEC EDGAR Form 4</text><text x="14" y="235">Congressional trades</text><text x="14" y="293">FRED macro series</text><text x="14" y="351">Analyst video transcripts</text>
+          <text x="14" y="57">News feeds</text><text x="14" y="100">Prices and fundamentals</text><text x="14" y="142">Analyst ratings</text><text x="14" y="185">SEC EDGAR Form 4</text><text x="14" y="227">Congressional trades</text><text x="14" y="270">FRED macro series</text><text x="14" y="312">Options quotes (Cboe)</text><text x="14" y="355">Analyst video transcripts</text>
           <rect x="236" y="34" width="150" height="334" fill="var(--paper)" stroke="var(--rule)"/>
-          <text x="252" y="64" font-weight="700">Scheduled jobs</text>
-          <g fill="var(--ink-2)" font-size="12"><text x="252" y="92">GitHub Actions</text><text x="252" y="128">Normalize tickers</text><text x="252" y="152">Tag and rank</text><text x="252" y="176">Remove duplicates</text><text x="252" y="200">Validate</text></g>
+          <text x="252" y="62" font-weight="700">Scheduled jobs</text>
+          <g fill="var(--ink-2)" font-size="12"><text x="252" y="80">GitHub Actions</text><text x="252" y="108" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">EXTRACT</text><text x="252" y="124">Rate-limited API pulls</text><text x="252" y="140">Retries, alerts</text><text x="252" y="168" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">TRANSFORM</text><text x="252" y="184">Normalize tickers</text><text x="252" y="200">Split-adjust prices</text><text x="252" y="216">Standardize units</text><text x="252" y="232">Tag news: rules + AI</text><text x="252" y="248">Cluster, rank news</text><text x="252" y="264">Indicators, skew</text><text x="252" y="300" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">LOAD</text><text x="252" y="316">Match security master</text><text x="252" y="332">Hash dedupe, upsert</text></g>
           <rect x="428" y="34" width="170" height="334" fill="var(--steel)"/>
           <text x="446" y="64" font-weight="700" fill="var(--steel-ink)">PostgreSQL</text>
           <text x="446" y="120" font-size="44" font-weight="300" fill="var(--steel-ink)">42</text>
           <text x="446" y="142" font-size="12" fill="var(--steel-ink)">tables</text>
           <g font-size="12" fill="var(--steel-ink)"><text x="446" y="196">Prices, fundamentals</text><text x="446" y="216">Articles and themes</text><text x="446" y="236">Filings and trades</text><text x="446" y="256">Signals and positions</text><text x="446" y="276">Regime and reports</text></g>
-          <text x="446" y="346" font-size="11" fill="var(--steel-ink)" letter-spacing=".6">SHARED BY ALL AGENTS</text>
-          <rect x="640" y="34" width="216" height="104" fill="var(--paper)" stroke="var(--ink-3)"/>
-          <text x="656" y="58" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">CIO LAYER</text>
-          <text x="656" y="84">House View</text><text x="656" y="106">Tactical Investment Note</text><text x="656" y="126" font-size="11" fill="var(--ink-3)">regime, synthesis, the book</text>
-          <rect x="640" y="152" width="216" height="140" fill="var(--paper)" stroke="var(--ink-3)"/>
-          <text x="656" y="176" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">STRATEGY LAYER</text>
-          <text x="656" y="202">Growth · Value</text><text x="656" y="224">Macro Rotation · Congress</text><text x="656" y="246">Smart Money · Street View</text><text x="656" y="276" font-size="11" fill="var(--ink-3)">paper books, entries and exits</text>
-          <rect x="640" y="306" width="216" height="62" fill="var(--paper)" stroke="var(--ink-3)"/>
-          <text x="656" y="330" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">DAILY DESK</text>
-          <text x="656" y="354">Market Brief · Options · Swing</text>
+          <text x="446" y="346" font-size="11" fill="var(--steel-ink)" letter-spacing=".2">SHARED BY ALL AGENTS</text>
+          <rect x="640" y="110" width="216" height="104" fill="var(--paper)" stroke="var(--ink-3)"/>
+          <text x="656" y="134" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">CIO LAYER</text>
+          <text x="656" y="160">House View</text><text x="656" y="182">Tactical Investment Note</text><text x="656" y="202" font-size="11" fill="var(--ink-3)">regime, synthesis, the book</text>
+          <rect x="640" y="228" width="216" height="140" fill="var(--paper)" stroke="var(--ink-3)"/>
+          <text x="656" y="252" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">STRATEGY LAYER</text>
+          <text x="656" y="278">Growth · Value</text><text x="656" y="300">Macro Rotation · Congress</text><text x="656" y="322">Smart Money · Street View</text><text x="656" y="352" font-size="11" fill="var(--ink-3)">paper books, entries and exits</text>
+          <rect x="640" y="34" width="216" height="62" fill="var(--paper)" stroke="var(--ink-3)"/>
+          <text x="656" y="58" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">DAILY DESK</text>
+          <text x="656" y="82">Market Brief · Options · Swing</text>
           <rect x="900" y="150" width="100" height="44" fill="var(--paper)" stroke="var(--rule)"/><text x="914" y="177">PDF report</text>
           <rect x="900" y="208" width="100" height="44" fill="var(--paper)" stroke="var(--rule)"/><text x="914" y="235">Discord</text>
         </g>
         <g stroke="var(--ink-3)" stroke-width="1" fill="none">
-          <path d="M190 56H236M190 114H236M190 172H236M190 230H236M190 288H236M190 346H236" marker-end="url(#ar)"/>
+          <path d="M190 52H236" marker-end="url(#ar)"/>
+          <path d="M190 95H236" marker-end="url(#ar)"/>
+          <path d="M190 137H236" marker-end="url(#ar)"/>
+          <path d="M190 180H236" marker-end="url(#ar)"/>
+          <path d="M190 222H236" marker-end="url(#ar)"/>
+          <path d="M190 265H236" marker-end="url(#ar)"/>
+          <path d="M190 307H236" marker-end="url(#ar)"/>
+          <path d="M190 350H236" marker-end="url(#ar)"/>
           <path d="M386 201H428" marker-end="url(#ar)"/>
-          <path d="M598 86H640M598 222H640M598 337H640" marker-end="url(#ar)"/>
-          <path d="M640 98H612V110H598M640 238H612V250H598M640 350H612V358H598" stroke-dasharray="3 3" marker-end="url(#ar)"/>
-          <path d="M856 222H878V172H900M878 222V230H900" marker-end="url(#ar)"/>
+          <path d="M598 162H640" marker-end="url(#ar)"/>
+          <path d="M598 298H640" marker-end="url(#ar)"/>
+          <path d="M598 65H640" marker-end="url(#ar)"/>
+          <path d="M640 174H612V186H598" stroke-dasharray="3 3" marker-end="url(#ar)"/>
+          <path d="M640 314H612V326H598" stroke-dasharray="3 3" marker-end="url(#ar)"/>
+          <path d="M640 78H612V86H598" stroke-dasharray="3 3" marker-end="url(#ar)"/>
+          <path d="M856 65H878M856 172H878M856 298H878M878 65V298"/>
+          <path d="M878 172H900" marker-end="url(#ar)"/>
+          <path d="M878 230H900" marker-end="url(#ar)"/>
         </g>
         <g font-size="11" fill="var(--ink-3)"><text x="640" y="392">Solid line: agent reads. Dashed line: agent saves results.</text></g>
       </svg>
     </div>
     <ol class="arch-m" aria-label="Platform architecture, top to bottom">
-      <li><b>Sources</b><span>News feeds · Market data and fundamentals · SEC EDGAR Form 4 · Congressional trades · FRED macro series · Analyst video transcripts</span></li>
-      <li><b>Ingestion</b><span>Scheduled jobs on GitHub Actions normalize tickers, tag and rank articles, remove duplicates and validate.</span></li>
+      <li><b>Sources</b><span>News feeds · Prices and fundamentals · Analyst ratings · SEC EDGAR Form 4 · Congressional trades · FRED macro series · Options quotes (Cboe) · Analyst video transcripts</span></li>
+      <li><b>Ingestion · ETL</b><span>Scheduled jobs on GitHub Actions pull from rate-limited APIs with retries and alerts. They normalize tickers, split-adjust prices, standardize units, tag and cluster news, and compute indicators and skew. They then check each record against the securities master, dedupe by hash and upsert.</span></li>
       <li class="db"><b>PostgreSQL · 42 tables</b><span>Shared by all agents</span></li>
-      <li><b>Agents</b><span><em>CIO layer</em> House View · Tactical Investment Note</span><span><em>Strategy layer</em> Growth · Value · Macro Rotation · Congress · Smart Money · Street View</span><span><em>Daily desk</em> Market Brief · Options · Swing</span></li>
+      <li><b>Agents</b><span><em>Daily desk</em> Market Brief · Options · Swing</span><span><em>CIO layer</em> House View · Tactical Investment Note</span><span><em>Strategy layer</em> Growth · Value · Macro Rotation · Congress · Smart Money · Street View</span></li>
       <li><b>Delivery</b><span>PDF reports to Discord</span></li>
     </ol>
     <div class="notes">
