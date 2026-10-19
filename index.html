@@ -257,7 +257,7 @@ footer .contact{margin-top:var(--name-line,22px)}
       <div class="fig"><b class="num">22</b><small>scheduled workflows running the platform</small></div>
       <div class="fig"><b class="num">32</b><small>distinct AI agent tasks</small></div>
       <div class="fig"><b class="num">1,200</b><small>securities under daily coverage</small></div>
-      <div class="fig"><b class="num">55,000</b><small>news articles read and classified</small></div>
+      <div class="fig"><b class="num">43,000</b><small>news articles tagged by ticker and theme</small></div>
     </div>
   </div>
 </section>
@@ -297,7 +297,7 @@ footer .contact{margin-top:var(--name-line,22px)}
           <g fill="var(--ink-2)" font-size="12"><text x="252" y="80">GitHub Actions</text><text x="252" y="108" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">EXTRACT</text><text x="252" y="124">Rate-limited API pulls</text><text x="252" y="140">Retries, alerts</text><text x="252" y="168" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">TRANSFORM</text><text x="252" y="184">Normalize tickers</text><text x="252" y="200">Split-adjust prices</text><text x="252" y="216">Standardize units</text><text x="252" y="232">Tag news: rules + AI</text><text x="252" y="248">Cluster, rank news</text><text x="252" y="264">Indicators, skew</text><text x="252" y="300" font-size="11" fill="var(--brand)" font-weight="700" letter-spacing="1">LOAD</text><text x="252" y="316">Match security master</text><text x="252" y="332">Hash dedupe, upsert</text></g>
           <rect x="428" y="34" width="170" height="334" fill="var(--steel)"/>
           <text x="446" y="64" font-weight="700" fill="var(--steel-ink)">PostgreSQL</text>
-          <text x="446" y="120" font-size="44" font-weight="300" fill="var(--steel-ink)">42</text>
+          <text x="446" y="120" font-size="44" font-weight="300" fill="var(--steel-ink)">41</text>
           <text x="446" y="142" font-size="12" fill="var(--steel-ink)">tables</text>
           <g font-size="12" fill="var(--steel-ink)"><text x="446" y="196">Prices, fundamentals</text><text x="446" y="216">Articles and themes</text><text x="446" y="236">Filings and trades</text><text x="446" y="256">Signals and positions</text><text x="446" y="276">Regime and reports</text></g>
           <text x="446" y="346" font-size="11" fill="var(--steel-ink)" letter-spacing=".2">SHARED BY ALL AGENTS</text>
@@ -339,7 +339,7 @@ footer .contact{margin-top:var(--name-line,22px)}
     <ol class="arch-m" aria-label="Platform architecture, top to bottom">
       <li><b>Sources</b><span>News feeds · Prices and fundamentals · Analyst ratings · SEC EDGAR Form 4 · Congressional trades · FRED macro series · Options quotes (Cboe) · Analyst video transcripts</span></li>
       <li><b>Ingestion · ETL</b><span>Scheduled jobs on GitHub Actions pull from rate-limited APIs with retries and alerts. They normalize tickers, split-adjust prices, standardize units, tag and cluster news, and compute indicators and skew. They then check each record against the securities master, dedupe by hash and upsert.</span></li>
-      <li class="db"><b>PostgreSQL · 42 tables</b><span>Shared by all agents</span></li>
+      <li class="db"><b>PostgreSQL · 41 tables</b><span>Shared by all agents</span></li>
       <li><b>Agents</b><span><em>Daily desk</em> Market Brief · Options · Swing</span><span><em>CIO layer</em> House View · Tactical Investment Note</span><span><em>Strategy layer</em> Growth · Value · Macro Rotation · Congress · Smart Money · Street View</span></li>
       <li><b>Delivery</b><span>PDF reports to Discord</span></li>
     </ol>
@@ -363,14 +363,14 @@ footer .contact{margin-top:var(--name-line,22px)}
         <caption>Platform</caption>
         <thead><tr><th>Component</th><th>Specification</th></tr></thead>
         <tbody>
-          <tr><td>Language</td><td>Python, <span class="num">46,000</span> lines</td></tr>
+          <tr><td>Language</td><td>Python, <span class="num">50,000</span> lines</td></tr>
           <tr><td>AI models</td><td>Anthropic Claude: Opus, Sonnet and Haiku, assigned by task</td></tr>
           <tr><td>Orchestration</td><td>GitHub Actions, <span class="num">22</span> scheduled workflows</td></tr>
-          <tr><td>Database</td><td>PostgreSQL 17 on Supabase, <span class="num">42</span> tables, row-level security</td></tr>
+          <tr><td>Database</td><td>PostgreSQL 17 on Supabase, <span class="num">41</span> tables, row-level security</td></tr>
           <tr><td>Reporting</td><td>PDF reports in one shared house style: page layout with fpdf2, charts with matplotlib</td></tr>
           <tr><td>Delivery</td><td>Discord, one channel per report</td></tr>
           <tr><td>Development</td><td>Built with Claude Code by Anthropic, under the five-step change process</td></tr>
-          <tr><td>Change history</td><td><span class="num">707</span> commits since May 2026</td></tr>
+          <tr><td>Change history</td><td><span class="num">725</span> commits since May 2026</td></tr>
         </tbody>
       </table></div>
       <div class="tbl-wrap"><table class="spec">
@@ -378,12 +378,12 @@ footer .contact{margin-top:var(--name-line,22px)}
         <thead><tr><th>Domain</th><th>Source and scale</th></tr></thead>
         <tbody>
           <tr><td>Market data</td><td>Financial Modeling Prep: prices, fundamentals, profiles, calendar</td></tr>
-          <tr><td>Price history</td><td><span class="num">989,000</span> daily bars, <span class="num">1,200</span> securities</td></tr>
+          <tr><td>Price history</td><td><span class="num">522,000</span> daily bars, <span class="num">1,198</span> securities</td></tr>
           <tr><td>Universe</td><td>Russell 1000, plus a 23-ETF cross-asset menu</td></tr>
           <tr><td>Insider filings</td><td>SEC EDGAR Form 4, <span class="num">29,000</span> transactions</td></tr>
           <tr><td>Legislative trades</td><td>US House and Senate disclosures</td></tr>
           <tr><td>Macro</td><td>Federal Reserve FRED series</td></tr>
-          <tr><td>News</td><td><span class="num">55,000</span> articles, tagged by ticker and theme</td></tr>
+          <tr><td>News</td><td><span class="num">43,000</span> articles, tagged by ticker and theme</td></tr>
         </tbody>
       </table></div>
     </div>
